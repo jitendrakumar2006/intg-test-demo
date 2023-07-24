@@ -1,24 +1,15 @@
 package com.example.demo;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootTest
-@EnabledIfSystemProperty(named = "it.tests", matches = "true")
-class DemoApplicationTests {
+class DemoApplicationRegularTests {
 
 	//@Autowired
 	//MathOps mathOps;
-
-	@Value("${int1}")
-	int int1;
-
-	@Value("${int2}")
-	int int2;
 
 	@Autowired
 	ApplicationContext applicationContext;
@@ -27,8 +18,8 @@ class DemoApplicationTests {
 	void contextLoads() {
 		MathOps mathOpsBean = applicationContext.getBean(MathOps.class);
 		System.out.println(mathOpsBean);
-		int sum = mathOpsBean.add(int1, int2);
-		System.out.println("sum of " + int1 + " and " + int2 + " is : " + sum);
+		int sum = mathOpsBean.add(1, 2);
+		System.out.println("sum of 1 and 2 is : " + sum);
 	}
 
 }
