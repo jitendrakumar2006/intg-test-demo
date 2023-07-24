@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Maven Central Repository
+      - name: Run the integration tests for spring cloud
         uses: actions/setup-java@v1
         with:
           java-version: 17
           distribution: 'temurin'
           java-package: 'jdk'
           cache: 'maven'
-      - name: Build with it profile
+      - name: Run the integration tests it-runner profile
         run: |
           mvn clean install \
             -Pit-runner \
