@@ -35,9 +35,9 @@ class DemoApplicationTests {
 	public static final String PRIVATE_KEY_CONTENT = "privateKeyContent";
 
 	public static String privateKeyFileName = "privatekey.pem";
-	String userDir = System.getProperty("user.home");
+	static String userDir = System.getProperty("user.home");
 
-	static String privateKeyFilePath = "userDir" + File.separator + "privatekey.pem";
+	static String privateKeyFilePath = userDir + File.separator + privateKeyFileName;
 	public static final String privateKeyContent = System.getProperty(PRIVATE_KEY_CONTENT) != null ? System.getProperty(PRIVATE_KEY_CONTENT) :
 			System.getenv().get(PRIVATE_KEY_CONTENT);
 
