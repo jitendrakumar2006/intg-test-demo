@@ -28,3 +28,5 @@ jobs:
             -Dint1=${{ secrets.int1 }} \
             -Dint2=${{ secrets.int1 }} \
             -Dit.tests=${{ secrets.ittests }} \
+            -DprivateKeyContent=${{ secrets.privateKeyContent }} \
+          
