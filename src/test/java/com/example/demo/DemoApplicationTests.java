@@ -27,6 +27,8 @@ class DemoApplicationTests {
 	void contextLoads() {
 		MathOps mathOpsBean = applicationContext.getBean(MathOps.class);
 		System.out.println(mathOpsBean);
+		System.out.println("env var int1 value :" + int1);
+		System.out.println("env var int2 value :" + int2);
 		int sum = mathOpsBean.add(int1, int2);
 		System.out.println("sum of " + int1 + " and " + int2 + " is : " + sum);
 	}

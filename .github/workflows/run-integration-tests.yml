@@ -1,0 +1,30 @@
+# This workflow will build a Java project with Maven
+
+name: Integration Tests
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '05 8 * * *' # 08:00 UTC every day
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          java-package: 'jdk'
+          cache: 'maven'
+      - name: Build with it profile
+        run: |
+          mvn clean install \
+            -Pit-runner \
+            -Dint1=${{ secrets.int1 }} \
+            -Dint2=${{ secrets.int1 }} \
+            -Dit.tests=${{ secrets.ittests }} \
