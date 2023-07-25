@@ -1,5 +1,12 @@
 package com.example.demo;
 
+import com.oracle.bmc.Region;
+import com.oracle.bmc.auth.*;
+import com.oracle.bmc.ons.NotificationDataPlane;
+import com.oracle.bmc.ons.NotificationDataPlaneClient;
+import com.oracle.bmc.ons.model.SubscriptionSummary;
+import com.oracle.bmc.ons.requests.ListSubscriptionsRequest;
+import com.oracle.bmc.ons.responses.ListSubscriptionsResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -10,9 +17,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 @SpringBootTest
 @EnabledIfSystemProperty(named = "it.tests", matches = "true")
@@ -44,7 +53,7 @@ class DemoApplicationTests {
 
 	@BeforeAll
 	static void beforeAll() throws Exception {
-		System.out.println("privateKeyFilePath : " + privateKeyFilePath);
+		System.setProperty(PRIVATE_KEY_PATH, privateKeyFilePath);
 		FileUtils.createFile(privateKeyFilePath, privateKeyContent.replace("\\n", "\n"));
 	}
 	@Test
@@ -59,6 +68,34 @@ class DemoApplicationTests {
 		System.out.println("env var int2 value :" + int2);
 		int sum = mathOpsBean.add(int1, int2);
 		System.out.println("sum of " + int1 + " and " + int2 + " is : " + sum);
+
+		listSubscriptions("ocid1.onstopic.oc1.iad.aaaaaaaam6isoan6lzewkq7qckbum2q2fculvrya2kmrvyujduccycbdfahq",
+				"ocid1.compartment.oc1..aaaaaaaatdogmj6wzyzau62nyh43nqpf4frgmx754ukyl76mvqu46tea6jla");
 	}
 
+	List<SubscriptionSummary> listSubscriptions(String topicId, String compartmentId) throws Exception {
+		ListSubscriptionsRequest request = ListSubscriptionsRequest.builder().topicId(topicId).
+				compartmentId(compartmentId).build();
+		ListSubscriptionsResponse response = notificationDataPlaneClient(createCredentialsProvider()).listSubscriptions(request);
+		System.out.println(" result subscriptions : " + response.getItems());
+		System.out.println(" result subscriptions size : " + response.getItems().size());
+		return response.getItems();
+	}
+
+	NotificationDataPlane notificationDataPlaneClient(BasicAuthenticationDetailsProvider adp) {
+		NotificationDataPlane notificationDataPlaneClient = new NotificationDataPlaneClient(adp);
+		return notificationDataPlaneClient;
+	}
+
+
+	public static BasicAuthenticationDetailsProvider createCredentialsProvider() throws IOException {
+		SimpleAuthenticationDetailsProvider.SimpleAuthenticationDetailsProviderBuilder builder =
+				SimpleAuthenticationDetailsProvider.builder()
+				.userId("ocid1.user.oc1..aaaaaaaasau2qkzhmtonim4dwoap3e5ijsu4fg6zojsbkgyf5cbjlqrxxiya")
+				.tenantId("ocid1.tenancy.oc1..aaaaaaaabzkajrazgwhwndxtzl2ns235qgdr4d6x42ateayzwfo4vy4f5ada")
+				.fingerprint("48:54:18:5f:db:f2:80:5b:91:76:74:06:97:55:cd:52")
+				.privateKeySupplier(new SimplePrivateKeySupplier(privateKeyFilePath))
+						.region(Region.fromRegionId("us-ashburn-1"));
+		return builder.build();
+	}
 }
