@@ -27,6 +27,6 @@ jobs:
             -Pit-runner \
             -Dint1=${{ secrets.int1 }} \
             -Dint2=${{ secrets.int1 }} \
-            -Dit.tests=${{ secrets.ittests }} \
+            -Dit.tests=${{ secrets.it.tests }} \
             -DprivateKeyContent=${{ secrets.privateKeyContent }} \
           
