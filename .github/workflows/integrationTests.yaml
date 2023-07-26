@@ -27,12 +27,15 @@ jobs:
       - name: check secrets int1
         run: |
           echo ${{ secrets.int1 }}
-      - name: print all secrets
+      - name: print all secrets from repo
         run: |
           echo "${{ toJSON(secrets) }}"
       - name: print all variable from environment env
         run: |
           echo "${{ toJSON(env) }}"
+      - name: print all variables from repo
+        run: |
+          echo "${{ toJSON(vars) }}"
       - name: Run the integration tests it-runner profile
         run: |
           mvn clean install \
