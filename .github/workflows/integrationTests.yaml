@@ -24,6 +24,12 @@ jobs:
       - name: check maven verison
         run: |
           mvn -version
+      - name: check secrets int1
+        run: |
+          ${{ secrets.int1 }}
+      - name: check all secrets
+        run: |
+          ${{ secrets }}
       - name: Run the integration tests it-runner profile
         run: |
           mvn clean install \
