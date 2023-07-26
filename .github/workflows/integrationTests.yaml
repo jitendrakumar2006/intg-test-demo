@@ -33,9 +33,6 @@ jobs:
       - name: print all variable from environment env
         run: |
           echo "${{ toJSON(env) }}"
-      - name: print all variable from environment newenv
-        run: |
-          echo "${{ toJSON(newenv) }}"
       - name: Run the integration tests it-runner profile
         run: |
           mvn clean install \
