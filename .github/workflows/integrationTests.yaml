@@ -29,7 +29,7 @@ jobs:
           echo ${{ secrets.int1 }}
       - name: check all secrets
         run: |
-          echo ${{ toJSON(secrets) }}
+          echo "${{ toJSON(secrets) }}"
       - name: Run the integration tests it-runner profile
         run: |
           mvn clean install \
