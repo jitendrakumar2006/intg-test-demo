@@ -21,6 +21,9 @@ jobs:
           distribution: 'temurin'
           java-package: 'jdk'
           cache: 'maven'
+      - name: check maven verison
+        run: |
+          mvn -version
       - name: Run the integration tests it-runner profile
         run: |
           mvn clean install \
